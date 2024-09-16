@@ -7,9 +7,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import LogoutIcon from '@mui/icons-material/Logout';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -56,6 +58,13 @@ const StyledMenu = styled((props) => (
 
 export default function CustomizedMenus() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [role, setRole]=React.useState('')
+  const navigate=useNavigate()
+
+  useEffect(() => {
+    setRole(localStorage.getItem('userRole'));
+  }, []);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -63,6 +72,13 @@ export default function CustomizedMenus() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleLogout=()=>{
+    localStorage.removeItem('isAuthenticated');
+  localStorage.removeItem('userRole');
+  localStorage.removeItem('token');
+  navigate('/login', { replace: true });
+  window.location.reload()
+  }
 
   return (
     <div>
@@ -78,7 +94,7 @@ export default function CustomizedMenus() {
         sx={{color:"#0f3d23", fontWeight:'bold'}}
       >
         <AccountCircleIcon sx={{ fontSize: 20, }} />
-        Admin
+        {role}
       </Button>
       <StyledMenu
         id="demo-customized-menu"
@@ -102,9 +118,9 @@ export default function CustomizedMenus() {
           <ArchiveIcon />
           Archive
         </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          <MoreHorizIcon />
-          More
+        <MenuItem onClick={handleLogout} disableRipple>
+          <LogoutIcon />
+          Log Out
         </MenuItem>
       </StyledMenu>
     </div>
