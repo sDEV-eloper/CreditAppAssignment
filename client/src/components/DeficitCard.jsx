@@ -44,14 +44,16 @@ const DeficitCard = () => {
   };
 
   // Handle form submission
+  
   const handleSubmit = async () => {
+    const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     if (formData.consent) {
       try {
         const response = await axios.post('/api/loans', formData,
            {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+            headers: {
+              Authorization: `Bearer ${token}`, // Passing JWT token in Authorization header
+            },
         });
         console.log("loan data---",response.data);
         alert('Loan Application Submitted!');
