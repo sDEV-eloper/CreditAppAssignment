@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/server.js", 
+      "src": "server/server.js",  
       "use": "@vercel/node"
     },
     {
-      "src": "client/index.html",  
+      "src": "client/package.json",  
       "use": "@vercel/static-build"
     }
   ],
@@ -16,8 +16,8 @@
       "dest": "/server/server.js"
     },
     {
-      "src": "/(.*)",     
-      "dest": "/client/$1"
+      "src": "/(.*)",  // All other routes go to the frontend
+      "dest": "/client"
     }
   ]
 }
